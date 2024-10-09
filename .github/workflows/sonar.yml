@@ -1,0 +1,21 @@
+# Required project properties
+sonar.projectKey=your_project_key
+sonar.projectName=Multiplication Table Project
+sonar.projectVersion=1.0
+sonar.sources=.
+
+# Set the language to Python
+sonar.language=py
+
+# Use the correct version of Python
+sonar.python.version=3.x
+
+# Optional settings
+# Exclude tests or other files from analysis if needed
+# sonar.exclusions=tests/**
+
+# Configure the SonarQube server URL if running on a custom server
+# sonar.host.url=http://localhost:9000
+
+# Authentication (Required if you’re using SonarQube with a token)
+# sonar.login=your_sonar_token
