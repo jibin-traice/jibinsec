@@ -1,0 +1,43 @@
+name: Multiplication Table Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-multiplication-table:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Run Multiplication Table Script
+        run: |
+          echo 'Creating multiplication_table.py'
+          echo '
+          def print_multiplication_table(number, limit):
+              print(f"Multiplication Table for {number}")
+              for i in range(1, limit + 1):
+                  result = number * i
+                  print(f"{number} x {i} = {result}")
+          
+          # Example usage
+          number = 7
+          limit = 10
+          print_multiplication_table(number, limit)
+          ' > multiplication_table.py
+          python multiplication_table.py
