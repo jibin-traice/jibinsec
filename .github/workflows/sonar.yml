@@ -1,21 +1,36 @@
-# Required project properties
-sonar.projectKey=your_project_key
-sonar.projectName=Multiplication Table Project
-sonar.projectVersion=1.0
-sonar.sources=.
+name: TRaiCE SonarQube Code Scan
+run-name: SonarQube Code Scan
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Build
+ 
+    runs-on: ubuntu-latest
 
-# Set the language to Python
-sonar.language=py
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-# Use the correct version of Python
-sonar.python.version=3.x
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: https://sonarqube.traice.io/
+          
 
-# Optional settings
-# Exclude tests or other files from analysis if needed
-# sonar.exclusions=tests/**
-
-# Configure the SonarQube server URL if running on a custom server
-# sonar.host.url=http://localhost:9000
-
-# Authentication (Required if you’re using SonarQube with a token)
-# sonar.login=your_sonar_token
+      # Check the Quality Gate status.
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        # Force to fail step after specific time.
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
+      - name: "SonarQube Quality Gate Status"
+        run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
