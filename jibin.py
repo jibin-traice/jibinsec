@@ -8,4 +8,3 @@ def print_multiplication_table(number, limit):
 number = 7  # Change this to any number you want the table for
 limit = 10  # This is the limit to which you want the table
 print_multiplication_table(number, limit)
-
